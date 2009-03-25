@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.5.0_01" class="java.beans.XMLDecoder">
+  <object class="org.jedit.ruby.ri.ClassDescription">
+    <void property="attributes">
+      <object class="java.util.ArrayList">
+<%d.attributes.each do |attribute|%>        <void method="add">
+          <object class="org.jedit.ruby.ri.Attribute">
+            <void property="comment">
+              <string><%=attribute.html_comment%></string>
+            </void>
+            <void property="name">
+              <string><%=attribute.name%></string>
+            </void>
+          </object>
+        </void>
+<%end%>      </object>
+    </void>
+    <void property="classMethods">
+      <object class="java.util.ArrayList">
+<%d.c_methods.each do |m|%>        <void method="add">
+          <object class="org.jedit.ruby.ri.MethodDescription">
+            <void property="aliases">
+              <object class="java.util.ArrayList">
+        <%m.aliases.each do |al|%>                <void method="add">
+                  <string><%=al.name%></string>
+                </void>
+        <%end%>      </object>
+            </void>
+            <void property="blockParameters">
+        <%if m.block_params%>      <string><%=m.block_params%></string>
+        <%else%>      <string></string>
+        <%end%>    </void>
+            <void property="comment">
+              <string><%=m.html_comment%></string>
+            </void>
+            <void property="fullName">
+              <string><%=m.full_name%></string>
+            </void>
+            <void property="isClassMethod">
+              <boolean>true</boolean>
+            </void>
+            <void property="isSingleton">
+              <boolean><%=m.is_singleton%></boolean>
+            </void>
+<%if m.namespace%>            <void property="namespace">
+              <string><%=m.namespace%></string>
+            </void><%end%>
+            <void property="name">
+              <string><%=m.name%></string>
+            </void>
+            <void property="parameters">
+        <%if m.params%>      <string><%=m.params.strip%></string>
+        <%else%>      <string></string>
+        <%end%>    </void>
+            <void property="visibility">
+              <string><%=m.visibility%></string>
+            </void>
+          </object>
+        </void>
+<%end%>      </object>
+    </void>
+    <void property="comment">
+      <string><%=d.html_comment%></string>
+    </void>
+    <void property="constants">
+      <object class="java.util.ArrayList"/>
+<%d.constants.each do |constant|%>        <void method="add">
+          <object class="org.jedit.ruby.ri.Constant">
+            <void property="comment">
+              <string><%=constant.html_comment%></string>
+            </void>
+            <void property="name">
+              <string><%=constant.name%></string>
+            </void>
+            <void property="value">
+              <string><%=constant.value%></string>
+            </void>
+          </object>
+        </void>
+<%end%>    </void>
+    <void property="fullName">
+      <string><%=d.full_name%></string>
+    </void>
+    <void property="includes">
+      <object class="java.util.ArrayList">
+<%d.includes.each do |include|%>        <void method="add">
+          <object class="org.jedit.ruby.ri.IncludedModule">
+            <void property="name">
+              <string><%=include.name%></string>
+            </void>
+          </object>
+        </void>
+<%end%>      </object>
+    </void>
+    <void property="instanceMethods">
+      <object class="java.util.ArrayList">
+<%d.i_methods.each do |m|%>        <void method="add">
+          <object class="org.jedit.ruby.ri.MethodDescription">
+            <void property="aliases">
+              <object class="java.util.ArrayList">
+        <%m.aliases.each do |al|%>        <void method="add">
+                  <string><%=al.name%></string>
+                </void>
+        <%end%>      </object>
+            </void>
+            <void property="blockParameters">
+        <%if m.block_params%>      <string><%=m.block_params%></string>
+        <%else%>      <string></string>
+        <%end%>    </void>
+            <void property="comment">
+              <string><%=m.html_comment%></string>
+            </void>
+            <void property="fullName">
+              <string><%=m.full_name%></string>
+            </void>
+            <void property="isClassMethod">
+              <boolean>false</boolean>
+            </void>
+            <void property="isSingleton">
+              <boolean><%=m.is_singleton%></boolean>
+            </void>
+<%if m.namespace%>            <void property="namespace">
+              <string><%=m.namespace%></string>
+            </void><%end%>
+            <void property="name">
+              <string><%=m.name%></string>
+            </void>
+            <void property="parameters">
+        <%if m.params%>      <string><%=m.params.strip%></string>
+        <%else%>      <string></string>
+        <%end%>    </void>
+            <void property="visibility">
+              <string><%=m.visibility%></string>
+            </void>
+          </object>
+        </void>
+<%end%>      </object>
+    </void>
+    <void property="name">
+      <string><%=d.name%></string>
+    </void>
+<%if d.namespace%>            <void property="namespace">
+              <string><%=d.namespace%></string>
+            </void><%end%>
+    <void property="superclass">
+<%if  d.superclass%>      <string><%=d.superclass%></string>
+<%else%>      <string></string>
+<%end%>    </void>
+  </object>
+</java>

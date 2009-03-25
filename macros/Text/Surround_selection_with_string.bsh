@@ -1,0 +1,52 @@
+/**
+ * Surround.bsh- jEdit macro to surround selections with designated string
+ *
+ * The script is designed to apply inline markup according to the
+ * reStructuredText specification. To this end it tries to extend the selection
+ * to include word boundaries, making it valid reStructuredText markup. Multiple
+ * selection is supported. The selection is preserved to make it easy to apply
+ * another markup operation immediately afterwards.
+ *
+ * Author: Vassil Dichev, 2007
+ */
+
+void surroundText(View view)
+{
+  this.view = view;
+
+  surroundString = Macros.input(view, "Surround String","*");
+
+  if(surroundString == null || surroundString.length() == 0 )
+    return;
+
+  Selection[] selections = textArea.selection;
+  if (selections.length != 0){
+    for(Selection selection: selections)
+    {
+      // Extend selection to word boundaries
+      textArea.moveCaretPosition(selection.start);
+      textArea.selectWord();
+      textArea.moveCaretPosition(selection.end);
+      // Hack to avoid selecting/moving over non-word characters to the start of next word
+      textArea.goToPrevCharacter(true);
+      textArea.selectWord();
+
+      // Insert surround string and extend selection to include it
+      newSelection = textArea.getSelectionAtOffset(textArea.caretPosition);
+      start = newSelection.start;
+      buffer.insert(start, surroundString);
+      textArea.extendSelection(start, start + surroundString.length());
+      buffer.insert(newSelection.end, surroundString);
+    }
+  } else {
+      textArea.selectWord();
+      text = textArea.selectedText;
+      if(text == null) text = "";
+      textArea.selectedText = surroundString + text + surroundString;
+  }
+}
+
+if(buffer.isReadOnly())
+  Macros.error(view, "Buffer is read-only.");
+else
+  surroundText(view);

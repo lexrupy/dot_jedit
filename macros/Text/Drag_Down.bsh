@@ -1,0 +1,96 @@
+/*
+ * Drag_Down.bsh
+ * A beanshell macro for jEdit text editor
+ *
+ * Version 1.1
+ * Tomek Pęszor
+ * (c) TAAT Technologie Cyfrowe
+ * info [at] taat dot pl
+ *
+ * Moves current line or selected lines one line down
+ * It is not needed to select lines from the begining to the end.
+ * Just hold shift+up/down arrow to indicate which lines to move,
+ * and then, use a keyboard shortcut you have choosen for this macro.
+ * I use CS+down arrow shortcut.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+// check buffer read-only status
+Buffer buffer = view.getBuffer();
+if ( buffer.isReadOnly() ) {
+   Macros.error( view, "File is read only." );
+   return ;
+}
+
+// get the current selection
+Selection[] selections = textArea.getSelection();
+
+// this doesn't work right with multiple selection, so don't do anything
+if (selections.length > 1) {
+   Macros.error( view, "This macro does not work in multiple selection mode." );
+   return;
+}
+
+String ls = buffer.getStringProperty( "lineSeparator" );
+
+selectedLines=textArea.getSelectedLines().length;
+
+if (selections.length==0){
+	// if nothing selected, select current line
+	textArea.goToEndOfLine(false);
+	textArea.goToStartOfLine(true);
+	// move selection down
+	lines=textArea.getSelectedText();
+	textArea.backspace();
+	textArea.deleteLine();
+	textArea.goToEndOfLine(false);
+	textArea.setSelectedText(ls);
+	textArea.setSelectedText(lines);
+	textArea.goToEndOfLine(false);
+	textArea.goToStartOfLine(true);
+} else {
+	selection=selections[0];
+	// if something selected, expand selection to begining of first line
+	// and end of the last line
+	start=textArea.getLineStartOffset(selection.getStartLine());
+	end=textArea.getLineEndOffset(selection.getEndLine());
+	textArea.select(start, end-1);
+	lines=textArea.getSelectedText();
+	textArea.backspace();
+	textArea.deleteLine();
+	textArea.goToEndOfLine(false);
+	textArea.setSelectedText(ls);
+	start3=textArea.getCaretPosition();
+	textArea.setSelectedText(lines);
+	end3=textArea.getCaretPosition();
+	textArea.select(start3, end3);
+}
+
+/*
+Macro index data (in DocBook format)
+
+<listitem>
+<para><filename>Drag_Down.bsh</filename>
+<abstract><para>
+Moves current line or selected lines one line down.
+It is not needed to select lines from the begining to the end.
+Just hold shift+up/down arrow to indicate which lines to move,
+and then, use a keyboard shortcut you have choosen for this macro.
+Suggested shortcut: CS+down arrow.
+Use in conjunction with Drag_Up.bsh macro.
+</para></abstract>
+</listitem>
+
+*/

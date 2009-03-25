@@ -1,0 +1,14 @@
+*.log
+history
+killring.xml
+perspective.xml
+recent.xml
+registers.xml
+pythonconfigurations.props
+gdbplugin/*
+projectviewer/projects/*
+projectviewer/pv.xml
+settings-backup/*
+jars-cache/*
+jars/*
+macros/.macroManagerCache

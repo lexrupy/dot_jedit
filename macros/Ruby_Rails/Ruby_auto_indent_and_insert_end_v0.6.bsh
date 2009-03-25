@@ -1,0 +1,305 @@
+/*
+ * Ruby_auto_indent_and_insert_end.bsh v0.6
+ *
+ * Copyright 2004 Robert McKinnon
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
+/*
+ * TO INSTALL:
+ *
+ * 1) First install Ruby edit mode 0.3.
+ *    This macro is designed to work with the auto-indenting
+ *    defined in Ruby edit mode v0.3.
+ *
+ * 2) Place this macro in directory: [user_home_dir]/.jedit/macros/Ruby
+ *
+ * 3) This macro is intended to be executed each time the enter key is pressed.
+ *    Add the 'ENTER' key shortcut via:
+ *       Utilities -> Global Options -> Shortcuts -> Edit Shortcuts: Macros
+ *
+ * ABOUT:
+ *    Currently auto inserts and indents 'end' after the following patterns:
+ *      if <x>, for <x>, while <x>, until <x>, unless <x>, def <x>,
+ *      case <x>, class <x>, module <x>, begin, loop do, <y> do |<z>|
+ *
+ *    It also auto-aligns else and end keywords.
+ */
+
+import gnu.regexp.*;
+
+handleElse(trimLine) {
+    area.insertEnterAndIndent();
+
+    if(row > 0) {
+        re = new RE("(\\s*)([^#]*)(((if)|(unless)|(case)).*)", 0, RESearchMatcher.RE_SYNTAX_JEDIT);
+        index = row;
+
+        while(index > 0) {
+            index--;
+            line = area.getLineText(index);
+            if(re.isMatch(line) && line.indexOf("elsif") == -1) {
+                matches = re.getMatch(line);
+                indent = matches.toString(1);
+                for (int i = 0; i < matches.toString(2).length(); i++) {
+                    indent += " ";
+                }
+                reIndent(trimLine, indent);
+                area.selectLine();
+                area.setSelectedText(indent + area.getSelectedText().trim());
+                area.shiftIndentRight();
+
+                if(matches.toString(3).startsWith("case")) {
+                    area.goToPrevLine(false);
+                    area.shiftIndentRight();
+                    area.goToNextLine(false);
+                    area.shiftIndentRight();
+                }
+                break;
+            }
+        }
+    }
+}
+
+reIndent(trimLine, indent) {
+    area.goToPrevLine(false);
+    area.selectLine();
+    area.setSelectedText(indent + trimLine);
+    area.goToNextLine(false);
+}
+
+handleComment(line, commentRegExp, row) {
+    area.insertEnterAndIndent();
+    if(row > 0) {
+        index = row;
+        while(index > 0) {
+            line = area.getLineText(index);
+            index--;
+
+            if(commentRegExp.isMatch(line)) {
+                matches = commentRegExp.getMatch(line);
+                hashes = matches.toString(2);
+                if(hashes.equals("##")) {
+                    indent = matches.toString(1);
+                    area.selectLine();
+                    text = area.getSelectedText() == null ? "" : area.getSelectedText();
+                    text = text.trim();
+                    area.setSelectedText(indent + "# " + text);
+                    area.goToEndOfLine(false);
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+    }
+
+}
+
+handleEnd(trimLine, endRegExp, doRegExp, syntaxRegExp, ignoreRegExp, row) {
+    area.insertEnterAndIndent();
+    if(row > 0) {
+        index = row;
+        endCount = 0;
+        while(index > 0) {
+            index--;
+            line = area.getLineText(index);
+
+            if(endRegExp.isMatch(line)) {
+                endCount++;
+
+            } else if(!ignoreRegExp.isMatch(line)) {
+                isDoStatement = doRegExp.isMatch(line) && !isDoInComment(line);
+                isSyntaxStatement = syntaxRegExp.isMatch(line) &&
+                  line.indexOf("elsif") == -1;
+                //Macros.message(view, "here " + line + isDoStatement + isSyntaxStatement);
+
+                if(isDoStatement || isSyntaxStatement) {
+                    if(endCount > 0) {
+                        endCount--;
+                    } else {
+                        re = isDoStatement ? doRegExp : syntaxRegExp;
+                        matches = re.getMatch(line);
+                        indent = matches.toString(1);
+                        if(!isDoStatement) {
+                            for (int i = 0; i < matches.toString(2).length(); i++) {
+                                indent += " ";
+                            }
+                        }
+                        reIndent(trimLine, indent);
+                        area.selectLine();
+                        area.setSelectedText(matches.toString(1));
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+isDoInComment(line) {
+    inComment = false;
+    commentIndex = line.indexOf("#");
+    if(commentIndex != -1) {
+        doIndex = line.indexOf(" do ");
+        if(doIndex > commentIndex) {
+            inComment = true;
+        }
+    }
+    return inComment;
+}
+
+handleInsertEnd(matchesDo, doRegExp, syntaxRegExp, ignoreRegExp) {
+    area.insertEnterAndIndent();
+    regExp = null;
+    if(matchesDo) {
+        regExp = doRegExp;
+    } else {
+        regExp = syntaxRegExp;
+    }
+    matches = regExp.getMatch(line);
+    indent = matches.toString(1);
+    if(!matchesDo && line.indexOf("begin") == -1) {
+        for(int i = 0; i < matches.toString(2).length(); i++) {
+            indent += " ";
+        }
+    }
+
+    area.selectLine();
+    area.setSelectedText(indent + "end");
+
+    row = area.getCaretLine();
+    count = area.getLineCount();
+    balanced = 0;
+    endRegExp = new RE("[^#]*end(\\s*|(\\s+.*))");
+    // buffer = new StringBuffer("");
+    isString = false;
+
+    for(i = 0; i < count; i++) {
+        line = area.getLineText(i).trim();
+        if(endRegExp.isMatch(line)) {
+            // buffer.append(balanced + "");
+            // for(int i=0; i < balanced; buffer.append(i++ > -1 ? "    " : ""));
+            // buffer.append(line+"\n");
+            balanced -= 1;
+        }
+        if(line.indexOf("<<-EOF") != -1) {
+            isString = true;
+        } else if(line.indexOf("EOF") != -1) {
+            isString = false;
+        }
+        if(!isString) {
+            isDoStatement = doRegExp.isMatch(line) && !isDoInComment(line);
+            ignore = ignoreRegExp.isMatch(line);
+
+            if(!ignore && (isDoStatement || syntaxRegExp.isMatch(line))) {
+                openingBrace = line.indexOf("{") != -1 && line.indexOf("}") == -1;
+                elsif = line.indexOf("elsif") != -1;
+                if(!openingBrace && !elsif) {
+                    // buffer.append(balanced + "");
+                    // for(int i=0; i < balanced; buffer.append(i++ > -1 ? "    " : ""));
+                    // buffer.append(line+"\n");
+                    balanced += 1;
+                }
+            }
+        }
+    }
+
+    // Macros.message(view, buffer.toString());
+    if(balanced < 0) {
+        area.deleteLine();
+    }
+
+    area.goToPrevLine(false);
+    area.goToEndOfWhiteSpace(false);
+    area.insertEnterAndIndent();
+    area.selectLine();
+    text = area.getSelectedText() != null ? area.getSelectedText().trim() : "";
+    area.setSelectedText(indent + text);
+    area.shiftIndentRight();
+}
+
+handleInsertEnter(trimLine, row, commentRegExp) {
+    // matches <x>.<y> do |<z>| expressions
+    doExp = "(\\s*)(\\S+\\s+)+do\\s+\\|+[^\\|]*\\|\\s*";
+
+    // matches other syntax that requires end
+    syntaxExp = "(\\s*)([^#]*)(" +
+        "((if|for|while|until|unless|def|case|class|module)(\\s+\\S+)+)|" +
+        "(begin|loop[ ]do|do)" +
+        ")\\s*";
+
+    ignoreExp = "((.*)(" +
+        "([[:graph:]]\\s+(if|unless)(\\s+\\S+)+)" +
+        ")\\s*)" +
+        "|" +
+        "([^\"]*(\"|')[^\"]*" +
+        "(if|for|while|until|unless|def|case|class|module|do|begin|loop[ ]do)" +
+        "[^\"]*(\"|')[^\"]*)";
+
+    doRegExp = new RE(doExp, 0, RESearchMatcher.RE_SYNTAX_JEDIT);
+    syntaxRegExp = new RE(syntaxExp, 0, RESearchMatcher.RE_SYNTAX_JEDIT);
+    endRegExp = new RE("[^#]*end\\s*");
+    ignoreRegExp = new RE(ignoreExp, 0, RESearchMatcher.RE_SYNTAX_JEDIT);
+
+    matchesDo = doRegExp.isMatch(line) && !isDoInComment(line);
+    matchesSyntax = syntaxRegExp.isMatch(line);
+
+    ignore = ignoreRegExp.isMatch(line);
+
+    if(!ignore && (matchesDo || matchesSyntax)) {
+        handleInsertEnd(matchesDo, doRegExp, syntaxRegExp, ignoreRegExp);
+
+    } else if(endRegExp.isMatch(trimLine)) {
+        handleEnd(trimLine, endRegExp, doRegExp, syntaxRegExp, ignoreRegExp, row);
+    } else if(commentRegExp.isMatch(trimLine)) {
+        handleComment(line, commentRegExp, row);
+    } else {
+        area.insertEnterAndIndent();
+    }
+
+}
+
+// start = System.currentTimeMillis();
+area = textArea;
+
+if(!buffer.getMode().getName().equals("ruby")) {
+    area.insertEnterAndIndent();
+} else {
+    area.removeTrailingWhiteSpace();
+    row = area.getCaretLine();
+    line = area.getLineText(row);
+    trimLine = line.trim();
+    caretPosition = area.getCaretPosition() - area.getLineStartOffset(row);
+    openingBrace = line.indexOf("{") != -1 && line.indexOf("}") == -1;
+    commentRegExp = new RE("(\\s*)(##?)(.*)", 0, RESearchMatcher.RE_SYNTAX_JEDIT);
+
+    if(caretPosition != line.length() || openingBrace) {
+        if(commentRegExp.isMatch(line)) {
+            handleComment(line, commentRegExp, row);
+        } else {
+            area.insertEnterAndIndent();
+        }
+    } else if(trimLine.startsWith("else") || trimLine.startsWith("elsif")) {
+        handleElse(trimLine);
+    } else {
+        handleInsertEnter(trimLine, row, commentRegExp);
+    }
+
+}
+
+// end = System.currentTimeMillis();
+// Macros.message(view, "" + (end - start));

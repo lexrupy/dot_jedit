@@ -1,0 +1,105 @@
+/*
+ * This is simple jEdit beanshell macro for toggling text case without unselecting it.
+ * UPPERCASE/lowercase/Capitalize
+ * based on CaseMacros by Pascal Dal Farra - pdfneuro@yahoo.fr
+ *
+ * charset: UTF-8
+ *
+ * (C) Taat Digital Technologies 2006
+ * Tomasz Pęszor 
+ * Info At Taat Dot Pl
+ * Http://Taat.Pl/Jedit/
+ */
+
+
+void toggle_case(){
+        if (textArea.getSelectedText()==null) {
+            mcp=textArea.getCaretPosition();
+            textArea.selectLine();
+            sn=true;
+        }
+ 
+JEditBuffer buffer = textArea.getBuffer();
+//buffer.unsetProperty("macros.toggle_case.lastused");
+lastcase = buffer.getStringProperty("macros.toggle_case.lastused");
+if (lastcase==null) nextcase=1;
+else {
+    lastcase=Integer.parseInt(lastcase);
+    if (lastcase!=3) nextcase=lastcase+1;
+    else nextcase=1;
+}
+
+Selection[] selections = textArea.getSelection();
+for(int i=0; i<selections.length; i++)
+	selections[i] = selections[i].clone();
+
+switch (nextcase) {
+case 3:
+    // to lower case
+	for(int i=0; i<selections.length; i++){
+		Selection sel = selections[i]; 
+		textArea.setSelectedText(sel, textArea.getSelectedText(sel).toLowerCase()); 
+	}
+    break;
+case 2:
+	for(int i=0; i<selections.length; i++){
+		Selection sel = selections[i]; 
+		textArea.setSelectedText(sel, textArea.getSelectedText(sel).toUpperCase()); 
+	}
+    break;
+default:
+    // capitalize
+	private static String capitalize(String str){
+		StringBuffer sb = new StringBuffer(str);
+		int length = sb.length();
+		boolean newWord = true;
+		for(int i=0; i<length; i++){
+			char ch = sb.charAt(i);
+			if(!Character.isLetter(ch))
+				newWord = true;
+			else if(Character.isLetter(ch)){
+				if (newWord){
+					sb.setCharAt(i, Character.toUpperCase(ch));
+					newWord = false;
+				}
+				else
+					sb.setCharAt(i, Character.toLowerCase(ch));
+			}
+		}
+		return sb.toString();
+	}
+	
+	for(int i=0; i<selections.length; i++){
+		Selection sel = selections[i]; 
+		textArea.setSelectedText(sel, capitalize(textArea.getSelectedText(sel))); 
+	}
+}
+
+textArea.setSelection(selections);
+        if (sn==true) {
+            textArea.selectNone();
+            len=buffer.getLength(); 
+            if (mcp>len) mcp=len;
+            textArea.setCaretPosition(mcp);
+        }
+buffer.setStringProperty("macros.toggle_case.lastused", nextcase.toString());
+}
+
+
+// main
+if( buffer.isReadOnly()) Macros.error( view, "Buffer is read-only." );
+	else toggle_case();
+	
+	
+/*
+Macro index entry (in DocBook XML)
+
+<listitem>
+    <para><filename>Case_toggle.bsh</filename></para>
+	<abstract><para>
+    This is simple jEdit beanshell macro for toggling text case without unselecting it.
+    UPPERCASE/lowercase/Capitalize
+    (c) TAAT Digital Technologies 2006
+	</para></abstract>
+</listitem>
+*/

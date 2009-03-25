@@ -1,0 +1,33 @@
+import xml.parser.*;
+
+     matchTag(JEditTextArea textArea)
+    {
+        String text = textArea.getText();
+        TagParser.Tag tag = TagParser.getTagAtOffset(text,textArea.getCaretPosition());
+
+        if (tag != null)
+        {
+            TagParser.Tag matchingTag = TagParser.getMatchingTag(text, tag);
+            if (matchingTag != null)
+            {
+
+                if (tag.start < matchingTag.end)
+                {
+                    textArea.setSelection(new Selection.Range(
+                        tag.start, matchingTag.end
+                    ));
+                    textArea.moveCaretPosition(matchingTag.end);
+                }
+                else
+                {
+                    textArea.setSelection(new Selection.Range(
+                        matchingTag.start,tag.end));
+                    textArea.moveCaretPosition(matchingTag.start);
+                }
+            }
+            else
+                textArea.getToolkit().beep();
+        }
+    }
+
+matchTag(textArea);

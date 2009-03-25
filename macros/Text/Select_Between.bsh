@@ -1,0 +1,129 @@
+/*
+ * Select Between
+ * Version 1.0
+ * (c) TAAT Technologie Cyfrowe
+ * info [at] taat dot pl
+ *
+ * This simple jEdit macro selects text
+ * - between quotes: 	"selection"
+ * - between tags: 	<tag>selection<tag>
+ * - or inside tag:	 <selection>
+ *
+ *
+ * Based on Select_Between_Quotes.bsh
+ * By Lee Turner
+ *
+ * :tabSize=4:indentSize=4:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+// find starting point i.e where the cursor is.
+int currentPosition = textArea.getCaretPosition();
+int startPosition = 0;
+int countLeft = 0;
+int countRight = 0;
+/*string[] foundLeft = '';
+string[] foundRight = '';
+*/
+int endLeft = 0;
+int endRight = 0;
+
+bufferLength = buffer.getLength();
+
+// keep going back until we find a quote
+do
+{
+	textArea.goToPrevCharacter(false);
+	countLeft++;
+}
+while((textArea.getCaretPosition() != 0) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("(")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("{")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("}")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("[")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("'")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("%")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("\"")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals(">")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("<")) /* &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("/"))*/
+	);
+endLeft = textArea.getCaretPosition();
+foundLeft = textArea.getText(endLeft,1);
+
+// keep going forward until we find a quote
+do
+{
+	textArea.goToNextCharacter(false);
+	countRight++;
+}
+while((textArea.getCaretPosition() != bufferLength) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals(")")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("{")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("}")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("]")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("'")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("%")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("\"")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals(">")) &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("<")) /* &&
+	!(textArea.getText(textArea.getCaretPosition(), 1).equals("/"))*/
+	);
+
+endRight = textArea.getCaretPosition();
+foundRight = textArea.getText(endRight,1);
+
+if (countLeft<countRight) found = foundLeft;
+else found = foundRight;
+
+switch (found) {
+	case "(": ender=")"; break;
+	case "{": ender="}"; break;
+	case "}": ender="{"; break;
+	case "[": ender="]"; break;
+	case "]": ender="["; break;
+	case ")": ender="("; break;
+	case "'": ender="'"; break;
+	case "<": ender=">"; break;
+	case ">": ender="<"; break;
+	case "%": ender="%"; break;
+	case "\"": ender="\""; break;
+	default: ender="a";
+}
+
+if (ender.equals("a"))
+{
+	textArea.setCaretPosition(currentPosition);
+	return;
+}
+
+if (countLeft<countRight)
+{
+	if (countLeft!=countRight) textArea.setCaretPosition(endLeft+1);
+	do
+		textArea.goToNextCharacter(false);
+	while (textArea.getCaretPosition()!=bufferLength && !textArea.getText(textArea.getCaretPosition(), 1).equals(ender));
+	textArea.select(endLeft+1, textArea.getCaretPosition());
+}
+else {
+	textArea.setCaretPosition(endRight);
+	do
+	textArea.goToPrevCharacter(false);
+	while (textArea.getCaretPosition()!=0 && !textArea.getText(textArea.getCaretPosition(), 1).equals(ender));
+	if (countRight==countLeft) textArea.select(textArea.getCaretPosition()+1, endRight);
+	else textArea.select(textArea.getCaretPosition(), endRight);
+}
+

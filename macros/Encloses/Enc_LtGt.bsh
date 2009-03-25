@@ -1,0 +1,23 @@
+// Enclose the selected text with square brackets
+String s = textArea.getSelectedText();
+if (s != null) {
+  textArea.setSelectedText("<"+s+">");
+} else textArea.setSelectedText("<");
+/*
+
+Macro index data (in DocBook format)
+
+  <listitem>
+    <para>
+      <filename>Enc_LtGt.bsh</filename>
+    </para>
+    <abstract>
+      <para>
+        Set o macros to surround selected text with pairs '"[{(%`<>`%)}]"'
+        also insert the corresponding pair when typing
+      </para>
+    </abstract>
+  </listitem>
+*/
+
+// end Enc_LtGt.bsh

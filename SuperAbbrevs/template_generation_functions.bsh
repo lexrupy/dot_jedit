@@ -1,0 +1,64 @@
+/*******************************************************************************
+** Dont change this file it migth be overriden in future releases,            **
+** use the abbrev_functions.bsh file instead                                  **
+*******************************************************************************/
+
+public String _indent(String whitespace, String s){
+	return s.replaceAll("\n","\n"+indent+whitespace);
+}
+
+public void print(String s){
+	_out.append(s);
+}
+
+public void println(String s){
+	
+	_out.append(s+"\n");
+}
+
+private String escape(String s){
+	StringBuffer res = new StringBuffer();
+	for(int i=0;i<s.length();i++){
+		char c = s.charAt(i);
+		
+		switch (c){
+		case '\\':
+			res.append("\\\\");
+			break;
+		case '\n':
+			res.append("\\n");
+			break;
+		case '\t':
+			res.append("\\t");
+			break;
+		case '\r':
+			res.append("\\r");
+			break;
+		case '\"':
+			res.append("\\\"");
+			break;
+		default:
+			res.append(c);
+		}
+	}
+	return res.toString();
+}
+
+public String date() {
+    Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+    
+    java.text.SimpleDateFormat sdf = 
+          new java.text.SimpleDateFormat(DATE_FORMAT);
+    
+    sdf.setTimeZone(TimeZone.getDefault());          
+          
+    return sdf.format(cal.getTime());
+}
+
+public String variable(int number, String value){
+	return "${"+number+":"+value+"}";
+}
+
+public String reference(int number){
+	return "$"+number;
+}

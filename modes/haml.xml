@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+<!-- 
+	Edit mode for Ruby on Rails HAML documents. 
+	See http://www.haml.org for 
+	more information on HAML.
+	
+	FILE="haml.xml"
+	FILE_NAME_GLOB="*.haml"
+
+	Recommended entry for catalog:
+	
+	<MODE NAME="haml" FILE="haml.xml" FILE_NAME_GLOB="*.haml" />
+	
+	Currently indents after lines:-
+	  starting with % with no trailing normal text eg %label{:id => 1}, or %p 
+	  starting with -
+
+	This file written 2006 by Jim Morris and is FREE, PUBLIC DOMAIN etc
+	Version 1.0 - 2006-12-1 by Jim Morris
+	Version 1.1 - 2006-12-5 by Jim Morris - Changed indent rules
+	
+-->
+<MODE>
+	<PROPS>
+		<PROPERTY NAME="lineComment" VALUE="^\s*/" />
+		<PROPERTY NAME="noTabs" VALUE="true"/>
+		<PROPERTY NAME="wrap" VALUE="none"/>
+		<PROPERTY NAME="tabSize" VALUE="2"/>
+		<PROPERTY NAME="indentSize" VALUE="2"/>
+		<PROPERTY NAME="folding" VALUE="indent"/>
+		<PROPERTY NAME="indentNextLines" VALUE="\s*(((%\S+)((\{.+\})|(\[.+\]))?)|(-\s+.*))" />
+		<PROPERTY NAME="noWordSep" VALUE="_-"/>
+	</PROPS>
+	
+	<RULES IGNORE_CASE="TRUE">
+        
+ 		<MARK_FOLLOWING TYPE="MARKUP">%</MARK_FOLLOWING>
+		<MARK_FOLLOWING TYPE="KEYWORD2">#</MARK_FOLLOWING>
+		<MARK_FOLLOWING TYPE="KEYWORD3">.</MARK_FOLLOWING>
+		
+		<EOL_SPAN TYPE="LITERAL3" AT_WHITESPACE_END="TRUE" DELEGATE="ruby::MAIN">=</EOL_SPAN>
+		<EOL_SPAN TYPE="LITERAL2" AT_WHITESPACE_END="TRUE" DELEGATE="ruby::MAIN">-</EOL_SPAN>
+		<EOL_SPAN TYPE="LITERAL2" AT_WHITESPACE_END="TRUE" DELEGATE="ruby::MAIN">~</EOL_SPAN>
+		
+		<SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE">
+			<BEGIN>"</BEGIN>
+			<END>"</END>
+		</SPAN>
+		
+		<SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE">
+			<BEGIN>'</BEGIN>
+			<END>'</END>
+		</SPAN>
+		<SPAN TYPE="LITERAL4" NO_LINE_BREAK="TRUE" DELEGATE="ruby::MAIN">
+			<BEGIN>{</BEGIN>
+			<END>}</END>
+		</SPAN>
+		
+	</RULES>
+ 	       
+</MODE>

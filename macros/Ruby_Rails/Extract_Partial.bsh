@@ -1,0 +1,75 @@
+/**
+ * Extract_Partial.bsh - A BeanShell macro for jEdit that
+ * crop current selection of a rthml buffer into a new partial
+ * following Ruby on Rails patterns.
+ *
+ * New in 0.2
+ * Checkk existense of previous partial
+ * Create and save the new file automatically
+ * save previous buffer automatically
+ * After First Version I found an older version with same functionality and
+ * some code was extracted from:
+ *
+ * http://community.jedit.org/?q=node/view/3453
+ *
+ * Copyright (C) 2008 Alexandre da Silva <simpsomboy@gmail.com>
+ *
+*/
+
+extractPartial() {
+  // Verify File Mode
+  mode = buffer.getMode().getName();
+  if(!mode.equals("rhtml")) {
+    Macros.message(view, "Only rhtml mode supported.");
+    return false;
+  }
+  // Get the Selection Text
+  partial_text = textArea.getSelectedText();
+  // Get current path
+  current_path = buffer.getDirectory();
+  if(partial_text != null) {
+    // Ask user for partial name
+    partial_name = Macros.input(view, "Partial Name: ( Just name, omit _ and extension)", "partial");
+    // Continue if user provided a partial name
+    if(partial_name != null && partial_name.length() != 0) {
+      current_file_name = buffer.getPath();
+      file_ext = ".html.erb";
+      if (current_file_name.endsWith(".rhtml")) {
+        file_ext = ".rhtml";
+      }
+      // create new partial file on current buffer path
+      partial_path = current_path+"_"+partial_name+file_ext;
+      partial_file = new File(partial_path);
+      // Check if partial already exists
+      if(partial_file.exists()) {
+        confirm = Macros.confirm(view, "The partial file already exists. Overwrite?", JOptionPane.YES_NO_OPTION);
+        if(confirm == 1){
+          return false;
+        }
+      }
+      // Put render partial command in current buffer
+      textArea.setSelectedText("<%= render :partial => '"+partial_name+"' %>");
+      // Open the new file in a new buffer
+      Buffer b = jEdit.openFile(view, partial_path);
+      try {
+        if (b == null) return;
+        while(!b.isLoaded())
+          VFSManager.waitForRequests();
+        // Clear any previous content on file (User already confirmed to overrite)
+        b.remove(0, b.getLength());
+        // Insert partial text into new buffer
+        b.insert(0, partial_text);
+      } finally {
+        if(b != null) {
+          // Save new buffer with partial
+          b.save(view, partial_path, true);
+          // Save original partial buffer
+          buffer.save(view, null, true);
+          view.editPane.setBuffer(buffer);
+        }
+      }
+    }
+  }
+}
+
+extractPartial();

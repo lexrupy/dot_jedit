@@ -1,0 +1,39 @@
+
+// find starting point i.e where the cursor is.
+int currentPosition = textArea.getCaretPosition();
+int startPosition = 0;
+
+// keep going back until we find a quote
+do {
+  textArea.goToPrevCharacter(false);
+} while((textArea.getCaretPosition() != 0) && !(textArea.getText(textArea.getCaretPosition(), 1).equals("\'")));
+
+// if no quote found, move caret back and forget it
+if(textArea.getCaretPosition() == 0)
+{
+  textArea.moveCaretPosition(currentPosition);
+}
+else
+{
+  startPosition = textArea.getCaretPosition() + 1;
+
+  // now move forwards to see if we can find a quote.
+  do
+  {
+  textArea.goToNextCharacter(false);
+  }
+  while((textArea.getCaretPosition() != buffer.getLength()) &&!(textArea.getText(textArea.getCaretPosition(), 1).equals("\'")));
+
+  // no forward matching quote.
+  if(textArea.getCaretPosition() == buffer.getLength())
+  {
+  textArea.moveCaretPosition(currentPosition);
+  }
+  else
+  {
+  textArea.setSelection(new Selection.Range(startPosition, textArea.getCaretPosition()));
+  }
+
+  textArea.moveCaretPosition(currentPosition);
+}
+

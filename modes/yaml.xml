@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+<!--
+   FILE="yaml.xml"
+   FILE_NAME_GLOB="*.{yaml,ya,yl}"
+-->
+<MODE>
+   <PROPS>
+       <PROPERTY NAME="lineComment" VALUE="#" />
+       <PROPERTY NAME="noTabs" VALUE="true"/>
+   </PROPS>
+   <RULES IGNORE_CASE="TRUE" HIGHLIGHT_DIGITS="TRUE">
+       <EOL_SPAN TYPE="COMMENT1">#</EOL_SPAN>
+       <EOL_SPAN TYPE="LABEL">---</EOL_SPAN>
+       <SEQ TYPE="OPERATOR">]</SEQ>
+       <SEQ TYPE="OPERATOR">[</SEQ>
+       <SEQ TYPE="OPERATOR">{</SEQ>
+       <SEQ TYPE="OPERATOR">}</SEQ>
+       <SEQ TYPE="OPERATOR">-</SEQ>
+       <SEQ TYPE="OPERATOR">+</SEQ>
+       <SEQ TYPE="OPERATOR">|</SEQ>
+       <SEQ TYPE="OPERATOR">&gt;</SEQ>
+
+<MARK_PREVIOUS TYPE="KEYWORD1" AT_WHITESPACE_END="FALSE" EXCLUDE_MATCH="TRUE">:</MARK_PREVIOUS>
+
+       <MARK_FOLLOWING TYPE="KEYWORD2">&amp;</MARK_FOLLOWING>
+       <MARK_FOLLOWING TYPE="KEYWORD2">*</MARK_FOLLOWING>
+   </RULES>
+</MODE>

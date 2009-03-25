@@ -1,0 +1,171 @@
+/*
+ * Search_Ruby_documentation.bsh v0.2
+ *
+ * Copyright 2004 Robert McKinnon
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+ 
+/*
+ * Allows user to search Ruby documentation using ri - Ruby interactive reference. 
+ *  - Brings up dialog for user to enter search term.
+ *  - Macro runs ri on term, and reports ri results in another dialog.
+ *  - Remembers last term searched, and places it in search entry field.
+ *  - If user has text selected, then that is placed in search entry field instead.
+ */
+
+import java.util.Timer;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
+/**
+ * Runs supplied system command and returns process object.
+ */
+run(command) {
+    Process process = Runtime.getRuntime().exec(command);
+    
+    java.util.Timer timer = new java.util.Timer();
+    TimerTask task = new TimerTask() {
+        public void run() {
+            synchronized(process) {
+                // kills blocked subprocess
+                process.destroy();
+            }
+        }
+
+    };
+    timer.schedule(task, 1500);
+    
+    process.waitFor();
+    
+    synchronized(process) {
+        task.cancel();
+    }
+ 
+    return process;
+}
+
+/**
+ * Returns string output of execution of the supplied system command.
+ */
+getOutput(command) throws IOException, InterruptedException {
+    process = run(command);
+    reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+    buffer = new StringBuffer();
+
+    if(reader.ready()) {
+        buffer.append(reader.readLine());
+        while(reader.ready()) {
+            buffer.append('\n' + reader.readLine());
+        }
+    }
+    reader.close();
+    
+    reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+
+    if(reader.ready()) {
+        buffer.append(reader.readLine());
+        while(reader.ready()) {
+            buffer.append('\n' + reader.readLine());
+        }
+    }
+    reader.close();
+    
+    if(buffer.length() == 0)
+        return "Error:\nri output overflowed native platform's standard input stream buffer.";
+    else 
+        return buffer.toString();
+}
+
+/**
+ * Runs ri on supplied string search term and returns result string.
+ */
+ri(searchTerm) {
+    if(searchTerm.length() == 0)
+        searchTerm = "-c";
+    return getOutput("ri -T " + searchTerm);
+}
+
+getScrollPane(label, closeAction) {
+    scrollPane = new JScrollPane(label);
+    final String CLOSE = "close";
+    scrollPane.getActionMap().put(CLOSE, closeAction);
+
+    InputMap inputMap = scrollPane.getInputMap();
+    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), CLOSE);
+    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), CLOSE);
+    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), CLOSE);
+    return scrollPane;
+}
+    
+showDialog(frame, title, text) {
+    final JDialog dialog = new JDialog(frame, title, false);
+    label = new JTextArea(text);
+    label.setEditable(false);
+    label.setBackground(dialog.getContentPane().getBackground());
+    pane = getScrollPane(label, new AbstractAction() {
+        public void actionPerformed(ActionEvent e) {
+            dialog.setVisible(false);
+            dialog.dispose();
+        }
+    });
+
+    dialog.setContentPane(pane);
+    dialog.pack();
+    
+    height = dialog.getHeight();    
+    if(dialog.getHeight() > frame.getHeight()*.8) {
+        height = (int)(frame.getHeight()*.8);
+    }
+
+    dialog.setSize((int)(dialog.getWidth() *1.05), height);
+    dialog.setLocationRelativeTo(frame);
+
+    dialog.show();
+}
+
+/**
+ * Displays dialog for user to enter search term.
+ */
+getSearchTerm() {
+  term = textArea.getSelectedText();
+  
+  if(term == null) {
+    term = jEdit.getProperty("ruby-ri-search-term", "");
+  }
+  
+  term = Macros.input(view, "Search for:", term);
+  return term;
+}
+
+cc_ri(searchTerm) {
+  return getCommandOutput("/home/aaa/.jedit/macros/Ruby/cc_ri " + searchTerm);
+}
+
+/**
+ * Performs Ruby documentation search.
+ */
+doSearch() {
+  term = getSearchTerm();
+  if(term != null) {
+    jEdit.setProperty("ruby-ri-search-term", term);
+//    Macros.message(view, ri(term));
+    showDialog(view, "", ri(term));
+  }
+}
+
+doSearch();

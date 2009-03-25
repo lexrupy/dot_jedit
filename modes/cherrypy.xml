@@ -1,0 +1,481 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+<!-- 
+cherrypy mode for JEDIT by MV
+This mode requires JEDIT version 4.2 or above
+
+Version: 0.4
+To install copy the following declaration in the catalog.xml file contained in your modes directory :
+	<MODE NAME="cherrypy" FILE="cherrypy.xml" FILE_NAME_GLOB="*.cpy" />
+-->
+
+<MODE>
+	<PROPS>
+	
+		<PROPERTY NAME="lineComment" VALUE="#" />
+		
+		<!--experiment to highlight properly request,response,method (ver 0.4)etc...-->
+		<PROPERTY NAME="wordBreakChars" VALUE="+-="/>
+		
+		<!--new in version 0.4 next line not idented if it starts with CherryClass-->
+		<PROPERTY NAME="indentNextLines" VALUE="^(?!CherryClass)\s*[^#]{3,}:\s*(#.*)?" />
+		
+	</PROPS>
+	
+	<RULES ESCAPE="\" IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE">
+	
+		<!--unfortunately we can not import CHRPYTHON directly in the main mode-->
+		<!--reasons for this not to work are unclear-->
+		<IMPORT DELEGATE="python::MAIN"/>
+		
+		<EOL_SPAN AT_LINE_START="TRUE" TYPE="KEYWORD1">use</EOL_SPAN>
+		
+		<!--CherryClass structure-->
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE">CherryClass</SEQ>
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE" DELEGATE="ASPECTAREA">aspect</SEQ>
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE">function</SEQ>
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE" DELEGATE="MASKAREA">mask</SEQ>
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE">variable</SEQ>
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE">view</SEQ>
+		
+		<!--Handle highlighting of the special variable request and response and their known attributes-->
+		<SPAN AT_WORD_START="TRUE" NO_LINE_BREAK="TRUE" NO_WORD_BREAK="TRUE" TYPE="KEYWORD3" DELEGATE="REQUEST">
+			<BEGIN>request.</BEGIN>
+			<END> </END>
+		</SPAN>
+		
+		<SPAN AT_WORD_START="TRUE" NO_LINE_BREAK="TRUE" NO_WORD_BREAK="TRUE" TYPE="KEYWORD3" DELEGATE="RESPONSE">
+			<BEGIN>response.</BEGIN>
+			<END> </END>
+		</SPAN>
+		<!--End Highlighting request , response-->
+		
+		<KEYWORDS>
+			<!--CherryPy specific-->
+			<KEYWORD4>abstract</KEYWORD4>
+			<KEYWORD4>hidden</KEYWORD4>
+			<KEYWORD2>Root</KEYWORD2>
+			
+			<!--special variable request-->
+			<KEYWORD3>request</KEYWORD3>
+			
+			<!--special variable response-->
+			<KEYWORD3>response</KEYWORD3>
+			
+			<!--special method-->
+			<KEYWORD3>initRequest</KEYWORD3>
+			<KEYWORD3>initNonStaticRequest</KEYWORD3>
+			<KEYWORD3>initResponse</KEYWORD3>
+			<KEYWORD3>initNonStaticResponse</KEYWORD3>
+			<KEYWORD3>onError</KEYWORD3>
+			<KEYWORD3>initThread</KEYWORD3>
+			<KEYWORD3>initProcess</KEYWORD3>
+			<KEYWORD3>initProgram</KEYWORD3>
+			<KEYWORD3>initServer</KEYWORD3>
+			<KEYWORD3>initAfterBind</KEYWORD3>
+			<KEYWORD3>initRequestBeforeParse</KEYWORD3>
+			
+			<!--better in the python mode-->
+			<LITERAL3>self</LITERAL3>
+			<LITERAL3>cls</LITERAL3>
+			
+			<LITERAL3>_page</LITERAL3>
+			
+		</KEYWORDS>
+		
+	</RULES>
+	
+	<RULES SET="MASKAREA" IGNORE_CASE="TRUE" DEFAULT="NULL">
+		
+		<!--We keep on recognizing the python line comment-->
+		<EOL_SPAN TYPE="COMMENT1">#</EOL_SPAN>
+		
+		<!-- SGML comment -->
+		<SPAN TYPE="COMMENT1">
+			<BEGIN>&lt;!--</BEGIN>
+			<END>--&gt;</END>
+		</SPAN>
+
+		<!-- Script -->
+		<SPAN TYPE="MARKUP" DELEGATE="SCRIPT">
+			<BEGIN>&lt;SCRIPT</BEGIN>
+			<END>&lt;/SCRIPT&gt;</END>
+		</SPAN>
+
+		<!-- stylesheet -->
+		<SPAN TYPE="MARKUP" DELEGATE="STYLE">
+			<BEGIN>&lt;STYLE</BEGIN>
+			<END>&lt;/STYLE&gt;</END>
+		</SPAN>
+
+		<!-- DTD instructions -->
+		<SPAN TYPE="KEYWORD2" DELEGATE="xml::DTD-TAGS">
+			<BEGIN>&lt;!</BEGIN>
+			<END>&gt;</END>
+		</SPAN>
+		
+		<!--New in 0.4 : enables proper handling of CGTL tags-->
+		<!--syntax usage is not very clean with regards to the handling of quotes within content of cgtl tags , 
+		hence main mode is exited only after "> is encountered-->
+		<SPAN TYPE="MARKUP" DELEGATE="CHRPYTHON">
+			<BEGIN>&lt;py-eval="</BEGIN>
+			<END>"&gt;</END>
+		</SPAN>
+		<SPAN TYPE="MARKUP" DELEGATE="CHRPYTHON">
+			<BEGIN>&lt;py-exec="</BEGIN>
+			<END>"&gt;</END>
+		</SPAN>
+		<SPAN TYPE="MARKUP" DELEGATE="CHRPYTHON">
+			<BEGIN>&lt;py-if="</BEGIN>
+			<END>"&gt;</END>
+		</SPAN>
+		<SPAN TYPE="MARKUP" DELEGATE="CHRPYTHON">
+			<BEGIN>&lt;py-for="</BEGIN>
+			<END>"&gt;</END>
+		</SPAN>
+		<SPAN TYPE="MARKUP" DELEGATE="CHRPYTHON">
+			<BEGIN>&lt;py-code="</BEGIN>
+			<END>"&gt;</END>
+		</SPAN>
+		<!--End cherrypy CGTL tags section-->
+
+		<!-- standard markup tags -->
+		<SPAN TYPE="MARKUP" DELEGATE="TAGS">
+			<BEGIN>&lt;</BEGIN>
+			<END>&gt;</END>
+		</SPAN>
+
+		<!-- SGML entities -->
+		<SPAN TYPE="LITERAL2" NO_WORD_BREAK="TRUE">
+			<BEGIN>&amp;</BEGIN>
+			<END>;</END>
+		</SPAN>
+		
+		<!--This enables def looking good within mask area-->
+		<EOL_SPAN AT_WHITESPACE_END="TRUE" TYPE="KEYWORD1" DELEGATE="CHRPYTHON">def</EOL_SPAN>
+		
+		<!--CherryClass structure-->
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE" DELEGATE="MAIN">CherryClass</SEQ>
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE" DELEGATE="ASPECTAREA">aspect</SEQ>
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE" DELEGATE="MAIN">function</SEQ>
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE" DELEGATE="MAIN">variable</SEQ>
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE" DELEGATE="MAIN">view</SEQ>
+		
+	</RULES>
+	
+	<RULES SET="ASPECTAREA" DEFAULT="NULL" ESCAPE="\">
+		
+		<IMPORT DELEGATE="python::MAIN"/><!--importing CHRPYTHON directly does not work here-->
+		
+		<!--To ASPECTCOND-->
+		<SEQ TYPE="NULL" AT_WHITESPACE_END="TRUE" DELEGATE="ASPECTCOND">(</SEQ>
+		
+		<!--CherryClass structure-->
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE" DELEGATE="MAIN">CherryClass</SEQ>
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE" DELEGATE="MAIN">function</SEQ>
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE" DELEGATE="MASKAREA">mask</SEQ>
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE" DELEGATE="MAIN">variable</SEQ>
+		<SEQ TYPE="KEYWORD1" AT_WHITESPACE_END="TRUE" DELEGATE="MAIN">view</SEQ>
+		
+		<!--Handle highlighting of the special variable request and response and their known attributes-->
+		<SPAN AT_WORD_START="TRUE" NO_LINE_BREAK="TRUE" NO_WORD_BREAK="TRUE" TYPE="KEYWORD3" DELEGATE="REQUEST">
+			<BEGIN>request.</BEGIN>
+			<END> </END>
+		</SPAN>
+		
+		<SPAN AT_WORD_START="TRUE" NO_LINE_BREAK="TRUE" NO_WORD_BREAK="TRUE" TYPE="KEYWORD3" DELEGATE="RESPONSE">
+			<BEGIN>response.</BEGIN>
+			<END> </END>
+		</SPAN>
+		<!--End Highlighting request , response-->
+		
+		<KEYWORDS>
+			
+			<!--special variable request-->
+			<KEYWORD3>request</KEYWORD3>
+			
+			<!--special variable response-->
+			<KEYWORD3>response</KEYWORD3>
+			
+			<!--special method-->
+			<KEYWORD3>initRequest</KEYWORD3>
+			<KEYWORD3>initNonStaticRequest</KEYWORD3>
+			<KEYWORD3>initResponse</KEYWORD3>
+			<KEYWORD3>initNonStaticResponse</KEYWORD3>
+			<KEYWORD3>onError</KEYWORD3>
+			<KEYWORD3>initThread</KEYWORD3>
+			<KEYWORD3>initProcess</KEYWORD3>
+			<KEYWORD3>initProgram</KEYWORD3>
+			<KEYWORD3>initServer</KEYWORD3>
+			<KEYWORD3>initAfterBind</KEYWORD3>
+			<KEYWORD3>initRequestBeforeParse</KEYWORD3>
+			
+			<!--better in the python mode-->
+			<LITERAL3>self</LITERAL3>
+			<LITERAL3>cls</LITERAL3>
+			
+			<LITERAL3>_page</LITERAL3>
+			
+		</KEYWORDS>
+
+	</RULES>
+	
+	<RULES SET="ASPECTCOND" DEFAULT="NULL" ESCAPE="\">
+		
+		<IMPORT DELEGATE="python::MAIN"/>
+		
+		<!--Handle highlighting of the special variable request,response,method and their known attributes-->
+		<SPAN AT_WORD_START="TRUE" NO_LINE_BREAK="TRUE" NO_WORD_BREAK="TRUE" TYPE="KEYWORD3" DELEGATE="REQUEST">
+			<BEGIN>request.</BEGIN>
+			<END> </END>
+		</SPAN>
+		
+		<SPAN AT_WORD_START="TRUE" NO_LINE_BREAK="TRUE" NO_WORD_BREAK="TRUE" TYPE="KEYWORD3" DELEGATE="RESPONSE">
+			<BEGIN>response.</BEGIN>
+			<END> </END>
+		</SPAN>
+		
+		<SPAN AT_WORD_START="TRUE" NO_LINE_BREAK="TRUE" NO_WORD_BREAK="TRUE" TYPE="KEYWORD3" DELEGATE="METHOD">
+			<BEGIN>method.</BEGIN>
+			<END> </END>
+		</SPAN>
+		<!--End Highlighting request , response,method-->
+		
+		<KEYWORDS>
+		
+			<!--special variable method-->
+			<KEYWORD1>method</KEYWORD1>
+			
+			<!--special variable request-->
+			<KEYWORD3>request</KEYWORD3>
+			
+			<!--special variable response-->
+			<KEYWORD3>response</KEYWORD3>
+			
+			<!--better in the python mode-->
+			<LITERAL3>self</LITERAL3>
+			<LITERAL3>cls</LITERAL3>
+			
+			<LITERAL3>_page</LITERAL3>
+			
+		</KEYWORDS>
+		
+		<!--Back to aspect area-->
+		<SEQ TYPE="KEYWORD3" DELEGATE="ASPECTAREA">start</SEQ>
+		<SEQ TYPE="KEYWORD3" DELEGATE="ASPECTAREA">end</SEQ>
+		
+	</RULES>
+	
+	<!-- ESCAPE is not exactly right but it is needed to correctly
+	     handle JavaScript in on* parameters -->
+	<RULES SET="TAGS" DEFAULT="MARKUP" ESCAPE="\">
+		
+		<!--New in version 0.3 enable markup to recognize cherrypy attribute-->
+		<!--TODO: problems apparently appears if we terminate with'" (single quote followed by double quote)-->
+		<!--It looks this problem is related to JEDIT parsing-->
+		<SPAN TYPE="KEYWORD2" AT_WORD_START="TRUE" DELEGATE="CHRPYTHON">
+			<BEGIN>py-eval="</BEGIN>
+			<END>"</END>
+		</SPAN>
+		<SPAN TYPE="KEYWORD2" AT_WORD_START="TRUE" DELEGATE="CHRPYTHON">
+			<BEGIN>py-attr="</BEGIN>
+			<END>"</END>
+		</SPAN>
+		<SPAN TYPE="KEYWORD2" AT_WORD_START="TRUE" DELEGATE="CHRPYTHON">
+			<BEGIN>py-exec="</BEGIN>
+			<END>"</END>
+		</SPAN>
+		<SPAN TYPE="KEYWORD2" AT_WORD_START="TRUE" DELEGATE="CHRPYTHON">
+			<BEGIN>py-if="</BEGIN>
+			<END>"</END>
+		</SPAN>
+		<SPAN TYPE="KEYWORD2" AT_WORD_START="TRUE" DELEGATE="CHRPYTHON">
+			<BEGIN>py-for="</BEGIN>
+			<END>"</END>
+		</SPAN>
+		<SPAN TYPE="KEYWORD2" AT_WORD_START="TRUE" DELEGATE="CHRPYTHON">
+			<BEGIN>py-code="</BEGIN>
+			<END>"</END>
+		</SPAN>
+		<!--End cherrypy attribute section-->
+		
+		<!--New in version 0.3 enable markup to recognize DOM events attribute-->
+		<SPAN_REGEXP HASH_CHAR="O" AT_WORD_START="TRUE" TYPE="KEYWORD3" DELEGATE="javascript::MAIN">
+			<BEGIN>on\S*="</BEGIN>
+			<END>"</END>
+		</SPAN_REGEXP>
+		<!--End DOM event section-->
+		
+		<SPAN TYPE="COMMENT2">
+			<BEGIN>"</BEGIN>
+			<END>"</END>
+		</SPAN>
+		
+		<MARK_PREVIOUS EXCLUDE_MATCH="FALSE" TYPE="KEYWORD2">=</MARK_PREVIOUS>
+		
+		<!--enable py-else to stands alone-->
+		<KEYWORDS>
+			<KEYWORD2>py-else</KEYWORD2>
+		</KEYWORDS>
+		
+		<SEQ TYPE="MARKUP" DELEGATE="MASKAREA">&gt;</SEQ>
+		
+	</RULES>
+	
+	<RULES SET="CHRPYTHON" ESCAPE="\" IGNORE_CASE="FALSE" HIGHLIGHT_DIGIT="TRUE">
+	
+		<IMPORT DELEGATE="python::MAIN"/>
+		
+		<!--Handle highlighting of the special variable request and response-->
+		<SPAN AT_WORD_START="TRUE" NO_LINE_BREAK="TRUE" NO_WORD_BREAK="TRUE" TYPE="KEYWORD3" DELEGATE="REQUEST">
+			<BEGIN>request.</BEGIN>
+			<END> </END>
+		</SPAN>
+		
+		<SPAN AT_WORD_START="TRUE" NO_LINE_BREAK="TRUE" NO_WORD_BREAK="TRUE" TYPE="KEYWORD3" DELEGATE="RESPONSE">
+			<BEGIN>response.</BEGIN>
+			<END> </END>
+		</SPAN>
+		<!--End Highlighting request , response-->
+		
+		<KEYWORDS>
+			
+			<!--special variable request-->
+			<KEYWORD3>request</KEYWORD3>
+			
+			<!--special variable response-->
+			<KEYWORD3>response</KEYWORD3>
+			
+			<!--special method-->
+			<KEYWORD3>initRequest</KEYWORD3>
+			<KEYWORD3>initNonStaticRequest</KEYWORD3>
+			<KEYWORD3>initResponse</KEYWORD3>
+			<KEYWORD3>initNonStaticResponse</KEYWORD3>
+			<KEYWORD3>onError</KEYWORD3>
+			<KEYWORD3>initThread</KEYWORD3>
+			<KEYWORD3>initProcess</KEYWORD3>
+			<KEYWORD3>initProgram</KEYWORD3>
+			<KEYWORD3>initServer</KEYWORD3>
+			<KEYWORD3>initAfterBind</KEYWORD3>
+			<KEYWORD3>initRequestBeforeParse</KEYWORD3>
+			
+			<!--better in the python mode-->
+			<LITERAL3>self</LITERAL3>
+			<LITERAL3>cls</LITERAL3>
+			
+			<LITERAL3>_page</LITERAL3>
+			
+		</KEYWORDS>
+		
+	</RULES>
+	
+	<RULES SET="REQUEST" DEFAULT="NULL">
+		<!--enable to highlight 
+				request.base
+				request.browserUrl
+				...
+				request.wfile
+		-->
+		<IMPORT DELEGATE="python::MAIN"/>
+		
+		<KEYWORDS>
+			<KEYWORD3>base</KEYWORD3>
+			<KEYWORD3>browserUrl</KEYWORD3>
+			<KEYWORD3>headerMap</KEYWORD3>
+			<KEYWORD3>method</KEYWORD3>
+			<KEYWORD3>originalPath</KEYWORD3>
+			<KEYWORD3>originalParamMap</KEYWORD3>
+			<KEYWORD3>path</KEYWORD3>
+			<KEYWORD3>paramMap</KEYWORD3>
+			<KEYWORD3>sessionMap</KEYWORD3>
+			<KEYWORD3>simpleCookie</KEYWORD3>
+			<KEYWORD3>wfile</KEYWORD3>
+		</KEYWORDS>
+		
+	</RULES>
+	
+	<RULES SET="RESPONSE" DEFAULT="NULL">
+		<!--enable to highlight 
+				response.body
+				response.headerMap
+				...
+				response.wfile
+		-->
+		<IMPORT DELEGATE="python::MAIN"/>
+		
+		<KEYWORDS>
+			<KEYWORD3>body</KEYWORD3>
+			<KEYWORD3>headerMap</KEYWORD3>
+			<KEYWORD3>sendResponse</KEYWORD3>
+			<KEYWORD3>simpleCookie</KEYWORD3>
+			<KEYWORD3>wfile</KEYWORD3>
+		</KEYWORDS>
+		
+	</RULES>
+	
+	<RULES SET="METHOD" DEFAULT="NULL">
+		<!--enable to highlight 
+				method.name
+				method.type
+				...
+		-->
+		
+		<KEYWORDS>
+			<KEYWORD3>name</KEYWORD3>
+			<KEYWORD3>type</KEYWORD3>
+			<KEYWORD3>isHidden</KEYWORD3>
+			<KEYWORD3>className</KEYWORD3>
+		</KEYWORDS>
+		
+	</RULES>
+	
+	<RULES SET="SCRIPT" DEFAULT="MARKUP" IGNORE_CASE="TRUE">
+		
+		<IMPORT DELEGATE="TAGS"/>
+		
+		<!-- handle <SCRIPT SRC="..."> properly -->
+		<SEQ TYPE="KEYWORD2" DELEGATE="TAGS">SRC=</SEQ>
+		
+		<SEQ TYPE="MARKUP" DELEGATE="JAVASCRIPT">&gt;</SEQ>
+		
+	</RULES>
+	
+	<RULES SET="STYLE" DEFAULT="MARKUP">
+		
+		<IMPORT DELEGATE="TAGS"/>
+		
+		<SEQ TYPE="MARKUP" DELEGATE="CSS">&gt;</SEQ>
+		
+	</RULES>
+	
+	<RULES SET="JAVASCRIPT" DEFAULT="NULL">
+		
+		<IMPORT DELEGATE="javascript::MAIN"/>
+		
+		<!--This to enable people putting script in between xml comments-->
+		<SEQ TYPE="COMMENT1">&lt;!--</SEQ>
+		<SEQ TYPE="COMMENT1">--&gt;</SEQ>
+		
+		<!--This to enable people putting script in between xhtml delimiters-->
+		<SEQ TYPE="COMMENT1">&lt;![CDATA[</SEQ>
+		<SEQ TYPE="COMMENT1">]]&gt;</SEQ>
+		
+	</RULES>
+	
+	<RULES SET="CSS" DEFAULT="NULL">
+		
+		<IMPORT DELEGATE="css::MAIN"/>
+		
+		<!--This to enable people putting script in between xml comments-->
+		<SEQ TYPE="COMMENT1">&lt;!--</SEQ>
+		<SEQ TYPE="COMMENT1">--&gt;</SEQ>
+		
+		<!--This to enable people putting script in between xhtml delimiters-->
+		<SEQ TYPE="COMMENT1">&lt;![CDATA[</SEQ>
+		<SEQ TYPE="COMMENT1">]]&gt;</SEQ>
+		
+	</RULES>
+
+</MODE>
+

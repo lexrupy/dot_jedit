@@ -1,0 +1,30 @@
+// Expand # to #{} if in quotes
+boolean escaped() {
+  pos= textArea.getCaretPosition();
+  str= textArea.getText(pos-1, 1);
+  return(str.equals("\\"));
+}
+
+boolean inQuotes() {
+  cl= textArea.getCaretLine();
+  str= textArea.getLineText(cl);
+  pos= (textArea.getCaretPosition() - textArea.getLineStartOffset(cl))-1;
+  cnt= 0;
+  do{
+    off= str.lastIndexOf("\"", pos);
+    if(off < 0)
+      break;
+    else if(off == 0 || str.charAt(off-1) != '\\')
+      cnt++;
+    pos= off-1;
+  }while(pos >= 0);
+  return (cnt & 1) != 0;
+}
+
+if((buffer.getMode().getName().equals("ruby") || buffer.getMode().getName().equals("rhtml")) && inQuotes() && !escaped()){
+  textArea.setSelectedText("#{}");
+  textArea.goToPrevCharacter(false);
+}else{
+    textArea.setSelectedText("#");
+}
+

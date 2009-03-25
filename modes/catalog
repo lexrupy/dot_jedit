@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE MODES SYSTEM "catalog.dtd">
+
+<MODES>
+
+<!-- Add lines like the following, one for each edit mode you add: -->
+<!-- <MODE NAME="foo" FILE="foo.xml" FILE_NAME_GLOB="*.foo" /> -->
+ <MODE NAME="RubyOnRails" FILE="rails.xml" FILE_NAME_GLOB="{*.rb,*.rbw,*.rake,*.rjs,*.ru,Capfile,capfile,Rakefile,rakefile}" />
+ <MODE NAME="yaml"  FILE="yaml.xml" FILE_NAME_GLOB="*.{yaml,ya,yl,yml}" />
+ <MODE NAME="haml"  FILE="haml.xml" FILE_NAME_GLOB="*.haml" />
+ <MODE NAME="mako"  FILE="mako.xml" FILE_NAME_GLOB="*.mako" />
+
+</MODES>
+

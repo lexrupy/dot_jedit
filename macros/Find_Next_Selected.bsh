@@ -1,0 +1,109 @@
+/**
+ * Find_Next_Selected.bsh - A BeanShell macro for jEdit that
+ * finds next occurrence of the selected text. It's meant to replace
+ * the regular Find Next providing additional functionality. Just
+ * reassign your Find Next shortcut to this macro.
+ *
+ * New in version 1.01:
+ *
+ * - Special behavior when regular expressions enabled: if the current
+ * selection matches your regexp search string, then it issues a
+ * "find-next" action (so it won't disrupt ongoing regexp searches);
+ * otherwise, the selected text becomes the new regexp search string;
+ * if the new regexp search string is invalid, a regular search is
+ * performed.
+ *
+ * Copyleft (C) 2004 Dan Ferreira <jedit@vemconcursos.com>
+ *
+ */
+
+void FindNextSelected(View view)
+{
+  String selected = view.getTextArea().getSelectedText();
+
+  boolean regexpEnabled = SearchAndReplace.getRegexp();
+
+  // if text is selected
+  if (selected != null) {
+    // if regexp enabled
+    if (regexpEnabled) {
+
+      // when regexp is enabled in your search, things get complicated
+      // but everything is handled just fine
+
+      import java.util.regex.Pattern;
+      import java.util.regex.Matcher;
+      import java.util.regex.PatternSyntaxException;
+
+      String searched = SearchAndReplace.getSearchString();
+
+      // handle exception where search regexp is invalid
+      try
+      {
+        Pattern pattern = Pattern.compile(searched, (SearchAndReplace.getIgnoreCase() ? Pattern.CASE_INSENSITIVE : 0));
+
+        Matcher matcher = pattern.matcher(selected);
+
+        // if selection doesn't match regexp search string
+        if (! matcher.matches()) {
+          // selection isn't some match from the last regexp search
+          // set search string to selection
+          SearchAndReplace.setSearchString(selected);
+        }
+      }
+      catch (PatternSyntaxException ex)
+      {
+        // set search string to selection
+        SearchAndReplace.setSearchString(selected);
+      }
+
+      // handle exception where selection is an invalid regexp
+      try
+      {
+        Pattern pattern = Pattern.compile(selected, (SearchAndReplace.getIgnoreCase() ? Pattern.CASE_INSENSITIVE : 0));
+      }
+      catch (PatternSyntaxException ex)
+      {
+        // oops, selection is an invalid regexp pattern
+        // don't annoy user with errors, just disable regexp temporarily
+        SearchAndReplace.setRegexp(false);
+      }
+    }
+    // regexp not enabled
+    else {
+      // set search string to selection
+      SearchAndReplace.setSearchString(selected);
+    }
+  }
+
+  /**
+  // This code commented out because I think it's best to invoke
+  // the find-next action, even though find-next is strangely
+  // not behaving as I expected
+
+  if (! SearchAndReplace.find(view)) {
+    view.status.setMessageAndClear("Search string not found!");
+    Toolkit.getDefaultToolkit().beep();
+  }
+  */
+
+  jEdit.getAction("find-next").invoke(view);
+
+  if (regexpEnabled) {
+    SearchAndReplace.setRegexp(true);
+  }
+}
+
+FindNextSelected(view);
+
+/*
+
+<listitem>
+  <para><filename>Find_Next_Selected.bsh</filename></para>
+  <abstract><para>
+    Finds next occurrence of the selected text. If no text is selected,
+ a Find Next is issued anyway.
+  </para></abstract>
+</listitem>
+
+*/
