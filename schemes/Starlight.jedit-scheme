@@ -1,0 +1,22 @@
+#Starlight jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=Starlight
+view.fgColor=\#a79ea8
+view.bgColor=\#0f1014
+view.caretColor=\#a7a7a7
+view.selectionColor=\#353c4e
+view.eolMarkerColor=\#2c2d30
+view.lineHighlightColor=\#16171b
+view.style.comment1=color\:\#6f6970 style\:i
+view.style.literal1=color\:\#4dfcff style\:b
+view.style.label=color\:\#ffffff style\:b
+view.style.digit=color\:\#ffffff style\:b
+view.style.keyword1=color\:\#418cd5 style\:
+view.style.keyword2=color\:\#418cd5 style\:
+view.style.keyword3=color\:\#ffffff style\:b
+view.style.keyword4=color\:\#aeb7ec style\:b
+view.style.operator=color\:\#418cd5 style\:
+view.style.function=color\:\#465ab1 style\:b
+view.style.literal3=color\:\#e9c062 style\:
+view.style.markup=color\:\#7c7f81 style\:

@@ -1,0 +1,21 @@
+#Midnight jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=Midnight
+view.fgColor=\#ffffff
+view.bgColor=\#0f192a
+view.caretColor=\#ffffff
+view.selectionColor=\#38566f
+view.eolMarkerColor=\#404040
+view.lineHighlightColor=\#253e5a
+view.style.comment1=color\:\#428bdd style\:i
+view.style.literal1=color\:\#1dc116
+view.style.label=color\:\#f7e741
+view.style.digit=color\:\#f7e741
+view.style.keyword1=color\:\#b43d3d style\:
+view.style.keyword2=color\:\#b43d3d style\:
+view.style.keyword3=color\:\#f7e741
+view.style.keyword4=color\:\#8aa6c1 style\:
+view.style.operator=color\:\#b43d3d style\:
+view.style.function=color\:\#f8bb00 style\:
+view.style.literal3=color\:\#1dc116

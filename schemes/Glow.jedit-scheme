@@ -1,0 +1,18 @@
+#Glow jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=Glow
+view.fgColor=\#cccccc
+view.bgColor=\#000000
+view.caretColor=\#ffffff
+view.selectionColor=\#333333
+view.eolMarkerColor=\#808080
+view.lineHighlightColor=\#1a1a1a
+view.style.comment1=color\:\#808080 style\:i
+view.style.literal1=color\:\#7fd049 bgColor\:\#12140e style\:
+view.style.digit=color\:\#7fd049 style\:b
+view.style.keyword1=color\:\#ffffff style\:b
+view.style.keyword2=color\:\#ffffff style\:b
+view.style.keyword3=color\:\#d0d071 style\:b
+view.style.operator=color\:\#ffffff style\:b
+view.style.literal3=color\:\#7fd049 bgColor\:\#12140e style\:

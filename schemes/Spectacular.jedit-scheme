@@ -1,0 +1,22 @@
+#Spectacular jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=Spectacular
+view.fgColor=\#f3f3f3
+view.bgColor=\#0b0a0a
+view.caretColor=\#8ba7a7
+view.selectionColor=\#605f5f
+view.eolMarkerColor=\#484848
+view.lineHighlightColor=\#f8f8f8
+view.style.comment1=color\:\#60606d style\:i
+view.style.literal1=color\:\#a9e448 style\:
+view.style.label=color\:\#ff3a55
+view.style.digit=color\:\#ff3a55
+view.style.keyword1=color\:\#ffaa00 style\:b
+view.style.keyword2=color\:\#ffaa00 style\:b
+view.style.keyword3=color\:\#ff3a55
+view.style.keyword4=color\:\#fb9a4b
+view.style.operator=color\:\#ffaa00 style\:b
+view.style.function=color\:\#fffb00 style\:b
+view.style.literal3=color\:\#ffb454
+view.style.markup=color\:\#9effff

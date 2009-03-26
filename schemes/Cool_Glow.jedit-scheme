@@ -1,0 +1,22 @@
+#Cool Glow jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=Cool Glow
+view.fgColor=\#e0e0e0
+view.bgColor=\#06071d
+view.caretColor=\#ffffff
+view.selectionColor=\#122bbb
+view.eolMarkerColor=\#464757
+view.lineHighlightColor=\#14152a
+view.style.comment1=color\:\#aeaeae style\:
+view.style.literal1=color\:\#8dff8e style\:
+view.style.label=color\:\#62e9bd style\:
+view.style.digit=color\:\#62e9bd style\:
+view.style.keyword1=color\:\#2bf1dc style\:
+view.style.keyword2=color\:\#2bf1dc style\:
+view.style.keyword3=color\:\#62e9bd style\:
+view.style.keyword4=color\:\#b683ca style\:
+view.style.operator=color\:\#2bf1dc style\:
+view.style.function=color\:\#a3ebff style\:
+view.style.literal3=color\:\#8dff8e style\:
+view.style.markup=color\:\#7bacca

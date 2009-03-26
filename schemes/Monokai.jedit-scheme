@@ -1,0 +1,19 @@
+#Monokai jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=Monokai
+view.fgColor=\#f8f8f2
+view.bgColor=\#272822
+view.caretColor=\#f8f8f0
+view.selectionColor=\#49483e
+view.eolMarkerColor=\#3b3a32
+view.lineHighlightColor=\#3e3d32
+view.style.comment1=color\:\#75715e
+view.style.literal1=color\:\#e6db74
+view.style.digit=color\:\#ae81ff
+view.style.keyword1=color\:\#f92672
+view.style.keyword2=color\:\#f92672
+view.style.keyword3=color\:\#ae81ff
+view.style.operator=color\:\#f92672
+view.style.function=color\:\#a6e22e style\:
+view.style.literal3=color\:\#e6db74

@@ -1,0 +1,19 @@
+#SpaceCadet Pro jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=SpaceCadet Pro
+view.fgColor=\#dde6cf
+view.bgColor=\#0e0e0e
+view.caretColor=\#c6641a
+view.selectionColor=\#333232
+view.eolMarkerColor=\#282828
+view.lineHighlightColor=\#171717
+view.style.comment1=color\:\#473c45
+view.style.literal1=color\:\#a17096
+view.style.label=color\:\#a8885a bgColor\:\#13100a
+view.style.digit=color\:\#a8885a bgColor\:\#13100a
+view.style.keyword3=color\:\#a8885a bgColor\:\#13100a
+view.style.keyword4=color\:\#596380
+view.style.operator=color\:\#b64033 bgColor\:\#180807
+view.style.function=color\:\#6078bf bgColor\:\#0e121d
+view.style.literal3=color\:\#a17096

@@ -1,0 +1,21 @@
+#Texari jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=Texari
+view.fgColor=\#f8f8f8
+view.bgColor=\#332722
+view.caretColor=\#a7a7a7
+view.selectionColor=\#8b8571
+view.eolMarkerColor=\#665d59
+view.lineHighlightColor=\#594f4b
+view.style.literal1=color\:\#817767 style\:
+view.style.label=color\:\#c98fb0c4
+view.style.digit=color\:\#c98fb0c4
+view.style.keyword1=color\:\#cda869 style\:
+view.style.keyword2=color\:\#cda869 style\:
+view.style.keyword3=color\:\#c98fb0c4
+view.style.keyword4=color\:\#7587a6
+view.style.operator=color\:\#cda869 style\:
+view.style.function=color\:\#c1c1c1 style\:
+view.style.literal3=color\:\#e9c062 style\:
+view.style.markup=color\:\#ac885b

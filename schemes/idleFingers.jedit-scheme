@@ -1,0 +1,21 @@
+#idleFingers jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=idleFingers
+view.fgColor=\#ffffff
+view.bgColor=\#323232
+view.caretColor=\#91ff00
+view.selectionColor=\#555d74
+view.eolMarkerColor=\#404040
+view.lineHighlightColor=\#353637
+view.style.comment1=color\:\#bc9458 style\:i
+view.style.literal1=color\:\#a5c261
+view.style.label=color\:\#6c99bb
+view.style.digit=color\:\#6c99bb
+view.style.keyword1=color\:\#cc7833 style\:
+view.style.keyword2=color\:\#cc7833 style\:
+view.style.keyword3=color\:\#6c99bb
+view.style.keyword4=color\:\#b7dff8
+view.style.operator=color\:\#cc7833 style\:
+view.style.literal3=color\:\#cccc33
+view.style.markup=color\:\#ffe5bb

@@ -1,0 +1,22 @@
+#Tango jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=Tango
+view.fgColor=\#303436
+view.bgColor=\#ffffff
+view.caretColor=\#000000
+view.selectionColor=\#c4dcff
+view.eolMarkerColor=\#bfbfbf
+view.lineHighlightColor=\#f0f0f0
+view.style.comment1=color\:\#555753 style\:i
+view.style.literal1=color\:\#a70000 style\:
+view.style.label=color\:\#194a87 style\:
+view.style.digit=color\:\#4f9b00 style\:
+view.style.keyword1=color\:\#303436 style\:b
+view.style.keyword2=color\:\#303436 style\:b
+view.style.keyword3=color\:\#194a87 style\:
+view.style.keyword4=color\:\#194a87 style\:
+view.style.operator=color\:\#303436 style\:b
+view.style.function=color\:\#5c3566 style\:
+view.style.literal3=color\:\#a70000 style\:
+view.style.markup=color\:\#4266a0 style\:

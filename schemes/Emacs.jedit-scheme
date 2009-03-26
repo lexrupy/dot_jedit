@@ -1,0 +1,17 @@
+#Emacs Strict jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=Emacs Strict
+view.fgColor=\#d3d3d3
+view.bgColor=\#000000
+view.caretColor=\#ffffff
+view.selectionColor=\#001ab3
+view.eolMarkerColor=\#ff0000
+view.lineHighlightColor=\#140027
+view.style.comment1=color\:\#ff7d27 style\:
+view.style.literal1=color\:\#ff9e7b
+view.style.keyword1=color\:\#00ffff
+view.style.keyword2=color\:\#00ffff
+view.style.operator=color\:\#00ffff
+view.style.function=color\:\#81cef9
+view.style.literal3=color\:\#ff9e7b

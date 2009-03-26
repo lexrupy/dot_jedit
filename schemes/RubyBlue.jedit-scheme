@@ -1,0 +1,19 @@
+#Ruby Blue jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=Ruby Blue
+view.fgColor=\#ffffff
+view.bgColor=\#121e31
+view.caretColor=\#ffffff
+view.selectionColor=\#38566f
+view.eolMarkerColor=\#404040
+view.lineHighlightColor=\#253e5a
+view.style.comment1=color\:\#428bdd style\:i
+view.style.literal1=color\:\#1dc116
+view.style.label=color\:\#8aa6c1
+view.style.digit=color\:\#eddd3d
+view.style.keyword1=color\:\#f8bb00 style\:
+view.style.keyword2=color\:\#f8bb00 style\:
+view.style.keyword3=color\:\#8aa6c1
+view.style.operator=color\:\#8aa6c1
+view.style.literal3=color\:\#ca4344

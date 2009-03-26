@@ -1,0 +1,22 @@
+#Sunburst jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=Sunburst
+view.fgColor=\#f8f8f8
+view.bgColor=\#000000
+view.caretColor=\#a7a7a7
+view.selectionColor=\#2c3033
+view.eolMarkerColor=\#30363c
+view.lineHighlightColor=\#0d0d0d
+view.style.comment1=color\:\#aeaeae style\:i
+view.style.literal1=color\:\#65b042 style\:
+view.style.label=color\:\#3387cc
+view.style.digit=color\:\#3387cc
+view.style.keyword1=color\:\#e28964 style\:
+view.style.keyword2=color\:\#e28964 style\:
+view.style.keyword3=color\:\#3387cc
+view.style.keyword4=color\:\#3e87e3
+view.style.operator=color\:\#e28964 style\:
+view.style.function=color\:\#89bdff style\:
+view.style.literal3=color\:\#e9c062
+view.style.markup=color\:\#89bdff

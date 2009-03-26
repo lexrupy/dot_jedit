@@ -1,0 +1,19 @@
+#monoindustrial jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=monoindustrial
+view.fgColor=\#ffffff
+view.bgColor=\#222c28
+view.caretColor=\#ffffff
+view.selectionColor=\#4e5753
+view.eolMarkerColor=\#444c48
+view.lineHighlightColor=\#1c2420
+view.style.comment1=color\:\#666c68 bgColor\:\#151c19 style\:
+view.style.label=color\:\#e98800
+view.style.digit=color\:\#e98800
+view.style.keyword1=color\:\#a39e64 style\:
+view.style.keyword2=color\:\#a39e64 style\:
+view.style.keyword3=color\:\#e98800
+view.style.keyword4=color\:\#648bd2 style\:
+view.style.operator=color\:\#a8b3ab style\:
+view.style.function=color\:\#a8b3ab style\:

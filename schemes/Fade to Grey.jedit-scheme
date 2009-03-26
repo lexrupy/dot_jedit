@@ -1,0 +1,22 @@
+#Fade to Grey jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=Fade to Grey
+view.fgColor=\#ffffff
+view.bgColor=\#000000
+view.caretColor=\#ffffff
+view.selectionColor=\#336299
+view.eolMarkerColor=\#404040
+view.lineHighlightColor=\#1b1b00
+view.style.comment1=color\:\#696854 style\:
+view.style.literal1=color\:\#e3e658
+view.style.label=color\:\#96daff
+view.style.digit=color\:\#96daff
+view.style.keyword1=color\:\#d01d33 style\:
+view.style.keyword2=color\:\#d01d33 style\:
+view.style.keyword3=color\:\#96daff
+view.style.keyword4=color\:\#898989 style\:b
+view.style.operator=color\:\#d01d33 style\:
+view.style.function=color\:\#aaaaaa style\:
+view.style.literal3=color\:\#d8e600
+view.style.markup=color\:\#3e3e3e style\:

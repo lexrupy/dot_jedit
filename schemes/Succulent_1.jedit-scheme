@@ -1,0 +1,22 @@
+#Succulent jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=Succulent
+view.fgColor=\#f8f8f8
+view.bgColor=\#000000
+view.caretColor=\#a7a7a7
+view.selectionColor=\#2c3033
+view.eolMarkerColor=\#30363c
+view.lineHighlightColor=\#0d0d0d
+view.style.comment1=color\:\#c05dff style\:i
+view.style.literal1=color\:\#90ff5e style\:
+view.style.label=color\:\#0a9cff style\:
+view.style.digit=color\:\#0a9cff style\:
+view.style.keyword1=color\:\#ff6458 style\:
+view.style.keyword2=color\:\#ff6458 style\:
+view.style.keyword3=color\:\#0a9cff style\:
+view.style.keyword4=color\:\#4596ff style\:
+view.style.operator=color\:\#ff6458 style\:
+view.style.function=color\:\#83cbed style\:
+view.style.literal3=color\:\#e9c062
+view.style.markup=color\:\#89bdff

@@ -1,0 +1,22 @@
+#PlasticCodeWrap jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=PlasticCodeWrap
+view.fgColor=\#f8f8f8
+view.bgColor=\#0b161d
+view.caretColor=\#8ba7a7
+view.selectionColor=\#687a83
+view.eolMarkerColor=\#485055
+view.lineHighlightColor=\#070f14
+view.style.comment1=color\:\#1e9ae0 style\:i
+view.style.literal1=color\:\#55e439 style\:
+view.style.label=color\:\#ff3a83
+view.style.digit=color\:\#ff3a83
+view.style.keyword1=color\:\#ffaa00 style\:b
+view.style.keyword2=color\:\#ffaa00 style\:b
+view.style.keyword3=color\:\#ff3a83
+view.style.keyword4=color\:\#fb9a4b
+view.style.operator=color\:\#ffaa00 style\:b
+view.style.function=color\:\#efe900 style\:b
+view.style.literal3=color\:\#ffb454
+view.style.markup=color\:\#9effff

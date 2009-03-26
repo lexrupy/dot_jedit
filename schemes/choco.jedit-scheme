@@ -1,0 +1,22 @@
+#choco jEdit Editor Scheme
+#generated from textmate theme with tm2jed (http://github.com/sickill/tm2jed/tree/master)
+
+scheme.name=choco
+view.fgColor=\#c3be98
+view.bgColor=\#1a0f0b
+view.caretColor=\#a7a7a7
+view.selectionColor=\#646467
+view.eolMarkerColor=\#534b48
+view.lineHighlightColor=\#211612
+view.style.comment1=color\:\#679d47 bgColor\:\#172013 style\:i
+view.style.literal1=color\:\#7ca563 style\:
+view.style.label=color\:\#da5659 style\:
+view.style.digit=color\:\#da5659 style\:
+view.style.keyword1=color\:\#b3935c style\:
+view.style.keyword2=color\:\#b3935c style\:
+view.style.keyword3=color\:\#da5659 style\:
+view.style.keyword4=color\:\#7989a6
+view.style.operator=color\:\#b3935c style\:
+view.style.function=color\:\#6d4c2f style\:
+view.style.literal3=color\:\#e9c062 style\:
+view.style.markup=color\:\#9f785b style\:
