@@ -1,11 +1,11 @@
 #jEdit Editor Scheme
 #:mode=properties:lineSeparator=\n:
-#Thu Jul 14 08:20:03 EDT 2005
+#Fri Mar 27 21:41:30 BRT 2009
 view.gutter.highlightColor=\#000000
 jdiff.deleted-color=\#ff6666
 view.gutter.foldColor=\#838383
 jdiff.overview-deleted-color=\#ff6666
-white-space.fold-color=\#cccccc
+white-space.fold-color=\#4b4b4b
 view.status.foreground=\#000000
 view.gutter.noFocusBorderColor=\#ffffff
 view.gutter.structureHighlightColor=\#ffffff
@@ -18,7 +18,7 @@ jdiff.selected-highlight-changed-color=\#ffcc66
 jdiff.overview-invalid-color=\#cccccc
 view.style.markup=color\:\#ffff00 style\:b
 view.style.invalid=color\:\#ff0066 bgColor\:\#ffffcc
-white-space.space-color=\#9ab8a9
+white-space.space-color=\#424242
 jdiff.selected-highlight-inserted-color=\#99cc66
 jdiff.highlight-changed-color=\#ffff90
 view.gutter.bgColor=\#000000
