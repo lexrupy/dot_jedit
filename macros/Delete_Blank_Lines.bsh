@@ -1,0 +1,67 @@
+/*
+ * Delete_Blank_Lines.bsh - Beanshell macro to delete all blank lines
+ * from a buffer.  In this case a blank line a taken as a line with
+ * no characters on it (not even whitespace characters).
+ *
+ * Copyright (C) 2002 Lee Turner (lee@leeturner.org)
+ * Version 1.0
+ *
+ * :tabSize=4:indentSize=4:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
+// Lets first check to see if the buffer is readonly as we can't make
+// updates to a readonly buffer now can we......
+if(buffer.isReadOnly())
+{
+	Macros.error(view, "This file is read only.");
+	return;
+}
+
+// Best check to see if they want to do it first.
+result = Macros.confirm(view, "Are you sure you want to remove all blank lines from this buffer?",JOptionPane.YES_NO_OPTION);
+
+if(result == JOptionPane.YES_OPTION)
+{
+
+	textArea.setCaretPosition(0);
+	buffer.beginCompoundEdit();
+
+	try
+	{
+		while(textArea.getCaretLine()+1 < buffer.getLineCount() )
+		{
+			textArea.selectLine();
+			String selectedLine = textArea.getSelectedText();
+			if (selectedLine == null)
+			{
+				textArea.deleteLine();
+			}
+			else
+			{
+				textArea.goToNextLine(false);
+			}
+		}
+	}
+	finally
+	{
+		if(buffer.insideCompoundEdit())
+		{
+			buffer.endCompoundEdit();
+		}
+	}
+}

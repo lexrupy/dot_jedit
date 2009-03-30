@@ -21,7 +21,7 @@ boolean inQuotes() {
   return (cnt & 1) != 0;
 }
 
-if((buffer.getMode().getName().equals("ruby") || buffer.getMode().getName().equals("rhtml")) && inQuotes() && !escaped()){
+if((buffer.getMode().getName().equals("RubyOnRails") || buffer.getMode().getName().equals("ruby") || buffer.getMode().getName().equals("rhtml")) && inQuotes() && !escaped()){
   textArea.setSelectedText("#{}");
   textArea.goToPrevCharacter(false);
 }else{
